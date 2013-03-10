@@ -73,22 +73,15 @@ end
 end
 
 if node['redis']['source']['create_service']
-  execute "Install redis-server init.d script" do
-    command   <<-COMMAND
-      wget https://raw.github.com/gist/257849/9f1e627e0b7dbe68882fa2b7bdb1b2b263522004/redis-server -O /etc/init.d/redis
-    COMMAND
-
-    creates   "/etc/init.d/redis"
-  end
-
-  file "/etc/init.d/redis" do
-    owner   "root"
-    group   "root"
-    mode    "0755"
+  template "/etc/init.d/redis" do
+    source "redis.erb"
+    owner  "root"
+    group  "root"
+    mode   "0755"
   end
 
   service "redis" do
-    action    :enable
+    action [:enable, :start]
   end
 
   directory "/etc/redis" do
@@ -97,7 +90,7 @@ if node['redis']['source']['create_service']
     mode    "0755"
   end
 
-  template "/etc/redis/#{port}.conf" do
+  template "/etc/redis/redis.conf" do
     source  "redis.conf.erb"
     owner   "root"
     group   "root"
