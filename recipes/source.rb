@@ -75,7 +75,7 @@ end
 if node['redis']['source']['create_service']
   execute "Install redis-server init.d script" do
     command   <<-COMMAND
-      cp #{cache_dir}/#{tar_dir}/utils/redis_init_script /etc/init.d/redis
+      wget https://raw.github.com/gist/257849/9f1e627e0b7dbe68882fa2b7bdb1b2b263522004/redis-server -O /etc/init.d/redis
     COMMAND
 
     creates   "/etc/init.d/redis"
