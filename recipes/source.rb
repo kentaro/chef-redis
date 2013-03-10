@@ -80,10 +80,6 @@ if node['redis']['source']['create_service']
     mode   "0755"
   end
 
-  service "redis" do
-    action [:enable, :start]
-  end
-
   directory "/etc/redis" do
     owner   "root"
     group   "root"
@@ -97,5 +93,9 @@ if node['redis']['source']['create_service']
     mode    "0644"
 
     notifies :restart, "service[redis]"
+  end
+
+  service "redis" do
+    action [:enable, :start]
   end
 end
